@@ -2,15 +2,33 @@ import { useEffect, useState } from "react";
 
 const App = () => {
   const [counter, setCounter] = useState(0);
+  const [users, setUsers] = useState([]); // puede ser null, pero se debe agregar una condición
 
   useEffect(() => {
-    console.log('montado')
-  }, [counter]); // en [], los elementos que se estarán escuchando, si es vacío se ejecutara solo una vez al principio, si no se coloca todo cambio en la aplicación se ejecutará
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+      });
+  }, []);
 
-  return <>
-    <h1>UseEffect</h1>
-    <button onClick={() => setCounter(counter + 1)}>Counter: {counter}</button>
-  </>;
+  /** Aquí condición si el useState de users se inicializa null */
+  // if (users === null) return <div>Cargando...</div>;
+
+  return (
+    <>
+      <h1>UseEffect</h1>
+      <button onClick={() => setCounter(counter + 1)}>
+        Counter: {counter}
+      </button>
+
+      <ul>
+        { users.map((user) => (
+            <li key={user.id}>{user.name}</li>
+          )) }
+      </ul>
+    </>
+  );
 }
 
 export default App;
