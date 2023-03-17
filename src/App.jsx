@@ -13,7 +13,7 @@ const App = () => {
   }, []);
 
   /** Aquí condición si el useState de users se inicializa null */
-  // if (users === null) return <div>Cargando...</div>;
+  // if (!users) return <div>Cargando...</div>;
 
   return (
     <>
