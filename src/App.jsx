@@ -1,22 +1,13 @@
-import { useEffect, useState } from "react";
-
-const fetchData = async (setUsers) => {
-  const res = await fetch('https://jsonplaceholder.typicode.com/users');
-  const data = await res.json();
-
-  setUsers(data);
-};
+import { useState } from "react";
+import { useFetch } from "./hooks/useFetch";
 
 const App = () => {
   const [counter, setCounter] = useState(0);
-  const [users, setUsers] = useState([]); // puede ser null, pero se debe agregar una condición
 
-  useEffect(() => {
-    fetchData(setUsers);
-  }, []);
+  const {data, loading, error} = useFetch('https://jsonplaceholder.typicode.com/users');
 
-  /** Aquí condición si el useState de users se inicializa null */
-  // if (!users) return <div>Cargando...</div>;
+  if (loading) return <div>Cargando...</div>;
+  if (error) return <p>{error}</p>;
 
   return (
     <>
@@ -26,7 +17,7 @@ const App = () => {
       </button>
 
       <ul>
-        { users.map((user) => (
+        { data.map((user) => (
             <li key={user.id}>{user.name}</li>
           )) }
       </ul>
