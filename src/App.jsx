@@ -5,11 +5,13 @@ const App = () => {
   const [users, setUsers] = useState([]); // puede ser null, pero se debe agregar una condición
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data);
-      });
+    async function fetchData() {
+      const res = await fetch("https://jsonplaceholder.typicode.com/users");
+      const data = await res.json();
+
+      setUsers(data);
+    }
+    fetchData();
   }, []);
 
   /** Aquí condición si el useState de users se inicializa null */
