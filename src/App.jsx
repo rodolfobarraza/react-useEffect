@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const App = () => {
   const [counter, setCounter] = useState(0);
   const [users, setUsers] = useState([]); // puede ser null, pero se debe agregar una condición
 
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch("https://jsonplaceholder.typicode.com/users");
-      const data = await res.json();
+  const fetchData = useCallback(async () => {
+    const res = await fetch('https://jsonplaceholder.typicode.com/users');
+    const data = await res.json();
 
-      setUsers(data);
-    }
+    setUsers(data);
+  }, []);
+
+  useEffect(() => {
     fetchData();
   }, []);
 
